@@ -1,6 +1,6 @@
 "use client"
 import { IProduct,CartItem } from "@/types/product";
-import { createContext, useContext, useState,  ReactNode, useEffect } from "react";
+import { createContext, useContext, useState,  ReactNode, useEffect, useRef } from "react";
 
 interface CartContextType {
     cart: CartItem[];
@@ -22,6 +22,7 @@ interface CartProviderProps {
 
 export const CartProvider = ({ children }: CartProviderProps) => {
     const [cart, setCart] = useState<CartItem[]>([]);
+    const initialRender = useRef(true);
  
     const addToCart = (product: IProduct) => {
         setCart((prevCart) => {
@@ -71,6 +72,10 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     }, []);
     
     useEffect(() => {
+        if (initialRender.current) {
+            initialRender.current = false;
+            return;
+        }
         if(typeof window === "undefined") return;
         localStorage.setItem("cart", JSON.stringify(cart));
     }, [cart]);

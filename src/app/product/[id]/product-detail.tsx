@@ -8,7 +8,7 @@ import { useCart } from "@/contexts/cart-context";
 import { fetchProductDetail } from "@/services/fetch-details";
 
 function ProductDetail() {
-    const { addToCart, isItemInCart, getItemFromCart,increaseQuantity,decreaseQuantity,removeFromCart } = useCart()
+    const { addToCart, isItemInCart, getItemFromCart, increaseQuantity, decreaseQuantity, removeFromCart } = useCart()
     const router = useRouter();
     const [product, setProduct] = useState<IProduct | null>(null);
     const [loading, setLoading] = useState(true);
@@ -67,14 +67,15 @@ function ProductDetail() {
                         {
                             isItemInCart(product.id) ? (
                                 <div className="flex items-center gap-4">
-                                    <button onClick={()=>{
-                                        qty === 1 ? removeFromCart(product?.id) : decreaseQuantity(product?.id)
-                                    }}   className="bg-red-500 hover:bg-red-400 text-white py-2 px-4 rounded-md transition duration-200 ease-in-out transform hover:scale-105 flex items-center gap-1 text-base">
-                                       -
+                                    <button onClick={() => {
+                                        if (qty === 1) { return removeFromCart(product.id) }
+                                        else { return decreaseQuantity(product.id) }
+                                    }} className="bg-red-500 hover:bg-red-400 text-white py-2 px-4 rounded-md transition duration-200 ease-in-out transform hover:scale-105 flex items-center gap-1 text-base">
+                                        -
                                     </button>
                                     <p className="text-xl font-semibold">{qty}</p>
                                     <button onClick={() => increaseQuantity(product?.id)} className="bg-blue-500 hover:bg-blue-400 text-white py-2 px-4 rounded-md transition duration-200 ease-in-out transform hover:scale-105 flex items-center gap-1 text-base">
-                                      +
+                                        +
                                     </button>
                                 </div>
                             ) : (

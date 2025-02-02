@@ -45,7 +45,8 @@ function ProductCard({ product }: { product: IProduct}) {
                             <div className="flex items-center gap-1">
                                 <button
                                     onClick={() => {
-                                        qty === 1 ? removeFromCart(product.id) : decreaseQuantity(product.id)
+                                        if(qty === 1){ return removeFromCart(product.id)}
+                                            else{ return decreaseQuantity(product.id)}
                                     }}
                                     className="bg-red-500 hover:bg-red-400 text-white py-2 px-4 rounded-md transition duration-200 ease-in-out transform hover:scale-105 flex items-center gap-1 text-base"
                                 >
